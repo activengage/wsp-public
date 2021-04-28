@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ActivEngage iFrame Demo - Outer</title>
+
+    <script src="https://pageview-qa.activengage.com/js/pageview.min.js" async defer></script>
+
+  </head>
+
+  <body
+    chat-account="www.devtest1.com"
+    chat-onunavailable="hookChatLaunched('available');"
+    chat-onavailable="hookChatLaunched('unavailable');"
+  >
+    <h1>iFrame Demo - Outer Window</h1>
+
+    <!-- this works with or without vendor-controlled buttons -->
+    <button class="button" chat-launch="big_button">Launch Chat</button>
+    <button class="button" onclick="launchContainer()">Launch iFrame</button>
+    <button class="button" onclick="closeContainer()">Close iFrame</button>
+  </body>
+
+      <script>
+
+      window.chatLaunch = function (id, context, event) {
+        console.info("chat launched");
+      };
+
+      window.hookChatLaunched = function (status) {
+        console.log('ActivEngage Callback:', status);
+        ActivEngage.events.onChatLaunched(window.chatLaunch);
+      };
+
+      window.launchContainer = function() {
+        if (document.getElementById("test-container")) {
+          return;
+        }
+
+        var container = document.createElement("div");
+        container.id = "test-container";
+        container.style = "position: fixed; height: 100%; right: 0px; top: 0px; float: right; z-index: 2147483647; background: white; width: 50vw";
+
+        var iframe = document.createElement("iframe");
+        iframe.src = "./iframe.html";
+        iframe.style = "width: 50vw; height: 100%";
+
+        container.appendChild(iframe);
+
+        document.body.insertBefore(container, document.body.firstChild);
+      }
+
+      window.closeContainer = function() {
+        var container = document.getElementById("test-container");
+        if (container) {
+          container.remove();
+        }
+      }
+    </script>
+</html>

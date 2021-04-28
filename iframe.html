@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>ActivEngage iFrame Demo - Inner</title>
+
+    <script src="https://pageview-qa.activengage.com/js/pageview.min.js"></script>
+
+    <script>
+
+      window.chatLaunch = function (id, context, event) {
+        console.info("chat launched");
+      };
+
+      window.hookChatLaunched = function (status) {
+        console.log('ActivEngage Callback:', status);
+        ActivEngage.events.onChatLaunched(window.chatLaunch);
+      };
+    </script>
+  </head>
+
+  <body
+    chat-account="www.devtest1.com"
+    chat-onunavailable="hookChatLaunched('available');"
+    chat-onavailable="hookChatLaunched('unavailable');"
+  >
+    <h1>We're in an iFrame</h1>
+
+    <!-- this works with or without vendor-controlled buttons -->
+    <button class="button" chat-launch="">Launch via Attribute</button>
+
+  </body>
+</html>
